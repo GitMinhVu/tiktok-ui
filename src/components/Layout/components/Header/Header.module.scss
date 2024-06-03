@@ -15,6 +15,7 @@
     height: 100%;
     width: var(--default-layout-width-content);
     // background-color: #666;
+    padding: 0 var(--default-layout-horizontal-spacer);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -91,7 +92,7 @@
     border-top-right-radius: var(--search-border-radius);
     border-bottom-right-radius: var(--search-border-radius);
     font-size: 1.8rem;
-    color: rgba(22, 24, 35, 0.3);
+    color: rgba(22, 24, 35, 0.34);
 
     &:hover {
         background-color: rgba(22, 24, 35, 0.03);
@@ -104,4 +105,12 @@
 
 .custom-login {
     color: red;
+}
+
+.more-btn {
+    font-size: 2rem;
+    margin-left: 28px;
+    padding: 4px 8px;
+    background-color: transparent;
+    cursor: pointer;
 }
