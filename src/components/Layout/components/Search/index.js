@@ -6,22 +6,75 @@ import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Search.module.scss';
+import { useDebounce } from '~/Hooks';
 import classNames from 'classnames/bind';
+import { type } from '@testing-library/user-event/dist/type';
 
+import * as searchServices from '~/apiServices/searchServices';
 const cx = classNames.bind(styles);
 function Search() {
     const [searchValue, setSearchValue] = useState('');
+
     const [searchResult, setSearchResult] = useState([]);
     //note :
     const [showResult, setShowResult] = useState(true);
+    //loading search
+    const [loading, setLoading] = useState(false);
+
+    const debounced = useDebounce(searchValue, 500);
 
     const inputRef = useRef();
 
+    //call API
     useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([1, 2, 3, 4]);
-        }, 0);
-    }, []);
+        if (!debounced.trim()) {
+            setSearchResult([]);
+            return;
+        }
+        //first API
+        const fetchApi = async () => {
+            setLoading(true);
+
+            const result = await searchServices.search(debounced);
+            setSearchResult(result);
+
+            setLoading(false);
+        };
+        fetchApi();
+    }, [debounced]);
+
+    // ******** Khai bao API bang Fetch
+    //     fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
+    //         .then((res) => res.json())
+    //         .then((res) => {
+    //             setSearchResult(res.data);
+    //             //End API
+    //             setLoading(false);
+    //         })
+    //         .catch(() => {
+    //             //Error
+    //             setLoading(false);
+    //         });
+    // }, [debounced]);
+
+    //********** Khai bao API bang Axios
+    //     request
+    //         .get('users/search', {
+    //             params: {
+    //                 q: debounced,
+    //                 type: 'less',
+    //             },
+    //         })
+    //         .then((res) => {
+    //             //note   1: data -> axios      2: data -> return
+    //             setSearchResult(res.data);
+    //             //End API
+    //             setLoading(false);
+    //         })
+    //         .catch(() => {
+    //             setLoading(false);
+    //         });
+    // }, [debounced]);
 
     const handleClear = () => {
         setSearchValue('');
@@ -42,10 +95,9 @@ function Search() {
                 <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
                         <h4 className={cx('search-title')}>Accounts</h4>
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
+                        {searchResult.map((results) => (
+                            <AccountItem key={results.id} data={results} />
+                        ))}
                     </PopperWrapper>
                 </div>
             )}
@@ -62,12 +114,14 @@ function Search() {
                     onFocus={() => setShowResult(true)}
                 />
 
-                {!!searchValue && (
+                {!!searchValue && !loading && (
                     <button className={cx('clear')} onClick={handleClear} style={{ cursor: 'pointer' }}>
                         <FontAwesomeIcon icon={faCircleXmark} />
                     </button>
                 )}
-                {/* <FontAwesomeIcon className={cx('loading')} icon={faSpinner} /> */}
+
+                {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
+
                 <button className={cx('search-btn')}>
                     <SearchIcon />
                 </button>
