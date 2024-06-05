@@ -10,7 +10,7 @@ import { useDebounce } from '~/Hooks';
 import classNames from 'classnames/bind';
 import { type } from '@testing-library/user-event/dist/type';
 
-import * as searchServices from '~/apiServices/searchServices';
+import * as searchServices from '~/services/searchService';
 const cx = classNames.bind(styles);
 function Search() {
     const [searchValue, setSearchValue] = useState('');

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import routesConfig from '~/config/routes';
+import config from '~/config';
 
 import {
     faCircleQuestion,
@@ -101,7 +101,7 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <Link to={routesConfig.home} className={cx('logoLink')}>
+                <Link to={config.routes.home} className={cx('logoLink')}>
                     <img src={images.logo} alt="TikTok" />
                 </Link>
                 <Search />
