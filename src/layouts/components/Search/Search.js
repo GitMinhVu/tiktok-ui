@@ -21,13 +21,13 @@ function Search() {
     //loading search
     const [loading, setLoading] = useState(false);
 
-    const debounced = useDebounce(searchValue, 500);
+    const debouncedValue = useDebounce(searchValue, 500);
 
     const inputRef = useRef();
 
     //call API
     useEffect(() => {
-        if (!debounced.trim()) {
+        if (!debouncedValue.trim()) {
             setSearchResult([]);
             return;
         }
@@ -35,16 +35,16 @@ function Search() {
         const fetchApi = async () => {
             setLoading(true);
 
-            const result = await searchServices.search(debounced);
+            const result = await searchServices.search(debouncedValue);
             setSearchResult(result);
 
             setLoading(false);
         };
         fetchApi();
-    }, [debounced]);
+    }, [debouncedValue]);
 
     // ******** Khai bao API bang Fetch
-    //     fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
+    //     fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debouncedValue)}&type=less`)
     //         .then((res) => res.json())
     //         .then((res) => {
     //             setSearchResult(res.data);
@@ -55,13 +55,13 @@ function Search() {
     //             //Error
     //             setLoading(false);
     //         });
-    // }, [debounced]);
+    // }, [debouncedValue]);
 
     //********** Khai bao API bang Axios
     //     request
     //         .get('users/search', {
     //             params: {
-    //                 q: debounced,
+    //                 q: debouncedValue,
     //                 type: 'less',
     //             },
     //         })
@@ -74,7 +74,7 @@ function Search() {
     //         .catch(() => {
     //             setLoading(false);
     //         });
-    // }, [debounced]);
+    // }, [debouncedValue]);
 
     const handleClear = () => {
         setSearchValue('');
