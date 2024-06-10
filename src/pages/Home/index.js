@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
-import styles from './Search.module.scss';
+import React, { useState, useEffect } from 'react';
+import classNames from 'classnames/bind';
+import styles from './Home.module.scss';
 const cx = classNames.bind(styles);
+
 const VideoPlayer = () => {
     const [videoUrls] = useState([
         {
@@ -119,6 +120,7 @@ const VideoPlayer = () => {
             isLive: false,
         },
     ]);
+
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
     const handleNextVideo = () => {
@@ -129,17 +131,30 @@ const VideoPlayer = () => {
         setCurrentVideoIndex((prevIndex) => (prevIndex - 1 + videoUrls.length) % videoUrls.length);
     };
 
+    useEffect(() => {
+        const videoElement = document.getElementById('video-player');
+        videoElement.load();
+    }, [currentVideoIndex]);
+
     return (
-        <div>
-            <video width="600" controls>
+        <div className={cx('wrapper')}>
+            <video id="video-player" width="600" controls>
                 <source src={videoUrls[currentVideoIndex].videoUrl} type="video/mp4" />
-                Trình duyệt của bạn không hỗ trợ video tag.
             </video>
             <div>
-                <button className={cx('btn-Pre')} onClick={handlePreviousVideo}>
+                <button
+                    // style={{ cursor: 'pointer', fontSize: 25, background: 'white' }}
+                    className={cx('btn-Pre')}
+                    onClick={handlePreviousVideo}
+                >
                     Previous Video
                 </button>
-                <button className={cx('btn-Next')} onClick={handleNextVideo}>
+
+                <button
+                    // style={{ cursor: 'pointer', fontSize: 25, background: 'white' }}
+                    className={cx('btn-Next')}
+                    onClick={handleNextVideo}
+                >
                     Next Video
                 </button>
             </div>

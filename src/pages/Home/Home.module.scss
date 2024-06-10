@@ -1,2 +1,22 @@
+.btn-Pre {
+    font-size: 15px;
+    cursor: pointer;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
 
+    &:hover {
+        background-color: red;
+    }
+}
 
+.btn-Next {
+    font-size: 15px;
+    cursor: pointer;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    &:hover {
+        background-color: greenyellow;
+    }
+}
