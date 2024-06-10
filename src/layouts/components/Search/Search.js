@@ -43,7 +43,7 @@ function Search() {
         fetchApi();
     }, [debouncedValue]);
 
-    // ******** Khai bao API bang Fetch
+    // ******** Khai bao API bang Fetch--------------
     //     fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debouncedValue)}&type=less`)
     //         .then((res) => res.json())
     //         .then((res) => {

@@ -32,6 +32,8 @@
 }
 
 .logo {
+    display: flex;
+    align-items: center;
 }
 
 // .search,
@@ -164,4 +166,9 @@
     border-radius: 50%;
     margin-left: 12px;
     cursor: pointer;
+}
+
+.dark-mode {
+    background-color: var(--white);
+    // color: white;
 }

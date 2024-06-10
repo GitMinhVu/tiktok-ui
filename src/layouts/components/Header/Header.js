@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import config from '~/config';
@@ -10,6 +10,7 @@ import {
     faEllipsisVertical,
     faGear,
     faKeyboard,
+    faMoon,
     faSignOut,
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
@@ -22,9 +23,12 @@ import Button from '~/components/Button';
 import styles from './Header.module.scss';
 import images from '~/assets/images';
 import Menu from '~/components/Popper/Menu';
-import { UploadIcon, MessageIcon, InboxIcon } from '~/components/Icons';
+import { UploadIcon, MessageIcon, InboxIcon, DarkModeIcon } from '~/components/Icons';
 import Image from '~/components/Image';
 import Search from '../Search';
+import { ThemeContext } from '~/components/ThemeProvider';
+import { ModalContext } from '~/components/ModalProvider';
+// import { LoginContext } from '~/components/LoginProvider';
 
 const cx = classNames.bind(styles);
 
@@ -57,6 +61,11 @@ const MENU_ITEM = [
         icon: <FontAwesomeIcon icon={faKeyboard} />,
         title: 'Keyboard shortcuts',
     },
+    {
+        icon: <DarkModeIcon />,
+        title: 'Dark mode',
+        button_mode: 'Dark',
+    },
 ];
 
 function Header() {
@@ -77,11 +86,13 @@ function Header() {
             title: 'View Profile',
             to: '/@minhvu',
         },
+
         {
             icon: <FontAwesomeIcon icon={faCoins} />,
             title: 'Get coins',
             to: '/getcoins',
         },
+
         {
             icon: <FontAwesomeIcon icon={faGear} />,
             title: 'Settings',
@@ -98,22 +109,25 @@ function Header() {
         },
     ];
 
+    const contextModal = useContext(ModalContext);
+    // const contextLogin = useContext(LoginContext);
+    const contextTheme = useContext(ThemeContext);
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <Link to={config.routes.home} className={cx('logoLink')}>
-                    <img src={images.logo} alt="TikTok" />
+                    {!contextTheme.isDark && <img className={cx('logoLink')} src={images.logo} alt="ReelTok" />}
+                    {contextTheme.isDark && <img className={cx('logoLink')} src={images.logo} alt="ReelTok" />}
+                    {/* <img src={images.logo} alt="TikTok" /> */}
                 </Link>
 
-                <Button>{['F8', ' ', 'ReactJS']}</Button>
-
-                {/* search */}
                 <Search />
 
                 <div className={cx('actions')}>
                     {currentUser ? (
                         <>
-                            <Tippy delay={[0, 200]} content="Upload Video" placement="bottom">
+                            <Tippy delay={[0, 100]} content="Upload Video" placement="bottom">
                                 <button className={cx('action-btn')}>
                                     <UploadIcon />
                                 </button>

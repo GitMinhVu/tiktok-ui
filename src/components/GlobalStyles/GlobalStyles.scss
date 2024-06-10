@@ -12,6 +12,13 @@
     --default-layout-horizontal-spacer: 24px;
 }
 
+[data-theme='dark'] {
+    --body-background: rgb(18, 18, 18);
+    --white-logo: #fff;
+    --search-background: rgba(255, 255, 255, 0.12);
+    --placehoder-search: #fff;
+}
+
 * {
     padding: 0;
     margin: 0;
